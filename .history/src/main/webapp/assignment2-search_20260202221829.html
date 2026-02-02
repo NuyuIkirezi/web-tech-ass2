@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search - Assignment 2</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Syne', sans-serif;
+        }
+        .mono {
+            font-family: 'Space Mono', monospace;
+        }
+        .search-glow {
+            box-shadow: 0 0 60px rgba(59, 130, 246, 0.3);
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        .float-animation {
+            animation: float 6s ease-in-out infinite;
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 flex items-center justify-center p-6 overflow-hidden relative">
+    
+    <!-- Animated grid background -->
+    <div class="absolute inset-0 opacity-20">
+        <div class="absolute inset-0" style="background-image: linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px); background-size: 50px 50px;"></div>
+    </div>
+
+    <!-- Floating orbs -->
+    <div class="absolute top-20 left-20 w-64 h-64 bg-blue-500 rounded-full mix-blend-screen filter blur-3xl opacity-20 float-animation"></div>
+    <div class="absolute bottom-20 right-20 w-64 h-64 bg-purple-500 rounded-full mix-blend-screen filter blur-3xl opacity-20 float-animation" style="animation-delay: 2s;"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-indigo-500 rounded-full mix-blend-screen filter blur-3xl opacity-10 float-animation" style="animation-delay: 4s;"></div>
+
+    <div class="relative w-full max-w-3xl z-10">
+        
+        <!-- Logo/Brand -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 bg-gradient-to-br from-blue-400 to-indigo-600 rounded-2xl flex items-center justify-center shadow-xl shadow-blue-500/50 transform rotate-12">
+                    <svg class="w-7 h-7 text-white transform -rotate-12" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                    </svg>
+                </div>
+                <h1 class="text-5xl md:text-6xl font-bold text-white tracking-tight">QuickFetch</h1>
+            </div>
+            <p class="text-blue-200 text-lg mono">Lightning-fast web discovery</p>
+        </div>
+
+        <!-- Main search card -->
+        <div class="bg-white/10 backdrop-blur-2xl rounded-3xl p-8 md:p-10 border border-white/20 shadow-2xl search-glow">
+            
+            <form action="SearchRedirectServlet" method="post">
+                
+                <!-- Search input -->
+                <div class="relative group">
+                    <label for="searchQuery" class="block text-sm font-semibold text-blue-200 mb-3 uppercase tracking-wider">
+                        What do you want to find?
+                    </label>
+                    
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-5 flex items-center pointer-events-none">
+                            <svg class="h-6 w-6 text-blue-300 group-focus-within:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+                            </svg>
+                        </div>
+                        
+                        <input 
+                            type="text" 
+                            id="searchQuery" 
+                            name="searchQuery" 
+                            required
+                            class="w-full pl-14 pr-5 py-5 bg-white/95 border-2 border-transparent rounded-2xl text-gray-900 text-lg placeholder-gray-400 focus:outline-none focus:border-blue-400 focus:bg-white transition-all duration-300 shadow-lg focus:shadow-2xl font-medium"
+                            placeholder="Search the web..."
+                            autocomplete="off"
+                        >
+                    </div>
+
+                    <!-- Search suggestions hint -->
+                    <div class="mt-3 flex flex-wrap gap-2">
+                        <span class="text-xs text-blue-300 mono">Try:</span>
+                        <button type="button" onclick="document.getElementById('searchQuery').value='artificial intelligence'" class="text-xs px-3 py-1 bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/20 transition-all mono">AI</button>
+                        <button type="button" onclick="document.getElementById('searchQuery').value='web development'" class="text-xs px-3 py-1 bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/20 transition-all mono">Web Dev</button>
+                        <button type="button" onclick="document.getElementById('searchQuery').value='machine learning'" class="text-xs px-3 py-1 bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/20 transition-all mono">ML</button>
+                    </div>
+                </div>
+
+                <!-- Fetch button -->
+                <button 
+                    type="submit" 
+                    class="w-full bg-gradient-to-r from-blue-500 via-indigo-500 to-purple-600 text-white font-bold text-lg py-5 px-8 rounded-2xl shadow-2xl shadow-blue-500/50 hover:shadow-blue-500/70 transform transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-blue-400/50 uppercase tracking-wide group"
+                >
+                    <span class="flex items-center justify-center gap-3">
+                        <svg class="w-6 h-6 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+                        </svg>
+                        Fetch Results
+                    </span>
+                </button>
+
+            </form>
+
+            <!-- Info section -->
+            <div class="mt-8 pt-6 border-t border-white/20">
+                <div class="flex items-start gap-3 text-blue-200">
+                    <svg class="w-5 h-5 mt-0.5 flex-shrink-0" fill="currentColor" viewBox="0 0 20 20">
+                        <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                    </svg>
+                    <p class="text-sm leading-relaxed">
+                        Enter your search query and click <span class="font-semibold text-white">Fetch Results</span> to be redirected to Google with your search terms.
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Footer -->
+        <div class="mt-8 text-center">
+            <p class="text-blue-300 text-sm mono">Assignment 2: SendRedirect Servlet</p>
+            <div class="mt-3 flex items-center justify-center gap-4 text-xs text-blue-400">
+                <span class="flex items-center gap-1">
+                    <span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>
+                    Servlet Active
+                </span>
+                <span>•</span>
+                <span>Powered by Java Servlets</span>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>
