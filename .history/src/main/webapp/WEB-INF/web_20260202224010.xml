@@ -15,7 +15,7 @@
     <!-- LoginServlet - Assignment 1 -->
     <servlet>
         <servlet-name>LoginServlet</servlet-name>
-        <servlet-class>com.nuyu.servlets.LoginServlet</servlet-class>
+        <servlet-class>com.afanyu.servlets.LoginServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
